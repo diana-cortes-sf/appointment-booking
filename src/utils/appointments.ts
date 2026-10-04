@@ -1,4 +1,4 @@
-import type { Booking, Slot } from '../types/appointment'
+import type { Booking, Slot, DayOfWeek } from '../types/appointment'
 
 export function getAvailableSlots(
   slots: Slot[],
@@ -64,4 +64,75 @@ export function getAppointments(
 
     return [{ booking, slot }]
   })
+}
+
+export function getConfirmedAppointments(
+  appointments: Appointment[],
+): Appointment[] {
+  return appointments.filter(
+    ({ booking }) => booking.status === 'confirmed',
+  )
+}
+
+export function getCancelledAppointments(
+  appointments: Appointment[],
+): Appointment[] {
+  return appointments.filter(
+    ({ booking }) => booking.status === 'cancelled',
+  )
+}
+
+export function sortAppointments(
+  appointments: Appointment[],
+): Appointment[] {
+  return [...appointments].sort(
+    (a, b) =>
+      a.slot.date.localeCompare(b.slot.date) ||
+      a.slot.startTime.localeCompare(b.slot.startTime),
+  )
+}
+
+export function getDoctorAppointments(
+  appointments: Appointment[],
+  doctorId: string,
+): Appointment[] {
+  return appointments.filter(
+    ({ slot }) => slot.doctorId === doctorId,
+  )
+}
+
+export type DoctorSchedule = Record<
+  DayOfWeek,
+  Appointment[]
+>
+
+export function groupAppointmentsByDay(
+  appointments: Appointment[],
+): DoctorSchedule {
+  const days: DayOfWeek[] = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ]
+
+  return days.reduce<DoctorSchedule>(
+    (schedule, day) => {
+      schedule[day] = appointments.filter(
+        ({ slot }) => slot.dayOfWeek === day,
+      )
+
+      return schedule
+    },
+    {
+      Monday: [],
+      Tuesday: [],
+      Wednesday: [],
+      Thursday: [],
+      Friday: [],
+      Saturday: [],
+    },
+  )
 }

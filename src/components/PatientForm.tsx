@@ -21,30 +21,37 @@ const PatientForm = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Patient information</h2>
+    <form className="patient-form" onSubmit={handleSubmit}>
+      <div className="card-heading">
+        <h2>Patient information</h2>
+        <p>Save your details before booking.</p>
+      </div>
 
-      <label>
-        Name
+      <label className="form-field">
+        <span>Name</span>
+
         <input
           type="text"
           value={name}
           onChange={(event) => setName(event.target.value)}
+          placeholder="Your full name"
           required
         />
       </label>
 
-      <label>
-        Contact
+      <label className="form-field">
+        <span>Contact</span>
+
         <input
           type="text"
           value={contact}
           onChange={(event) => setContact(event.target.value)}
+          placeholder="Email or phone"
           required
         />
       </label>
 
-      <button type="submit">
+      <button type="submit" className="primary-button">
         Save patient information
       </button>
     </form>
