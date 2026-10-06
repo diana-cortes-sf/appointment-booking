@@ -252,10 +252,16 @@ button:disabled {
   color: #111827;
 }
 
-.form-field input:focus,
-.form-field select:focus {
+.form-field input:focus-visible,
+.form-field select:focus-visible {
   outline: 2px solid #c7d2fe;
+  outline-offset: 1px;
   border-color: #6366f1;
+}
+
+button:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
 }
 
 .results-header {
