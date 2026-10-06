@@ -1,75 +1,90 @@
-# React + TypeScript + Vite
+# MediCare Appointment Booking
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React + TypeScript appointment booking application built as a promotion assessment. The application allows patients to browse available appointment slots, book and cancel appointments, view their appointment history, and review confirmed appointments by doctor and day.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+* Browse available appointment slots by doctor, specialty, date, and shift.
+* Combine specialty and date filters.
+* Collect patient information before the first booking.
+* Book an available appointment slot.
+* Prevent double-booking of the same slot during the session.
+* Cancel confirmed appointments.
+* Automatically make cancelled slots available for booking again.
+* View confirmed and cancelled appointments separately.
+* View a doctor's confirmed appointments organized by day from Monday through Saturday.
+* Display explicit empty states for days without appointments.
+* Responsive layout for desktop and mobile screens.
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+* React 19
+* TypeScript
+* Vite
+* Vitest
+* React Testing Library
+* CSS
+* ESLint
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Prerequisites
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+* Node.js 20+
+* npm
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Installation
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+### Run the development server
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm run dev
 ```
+
+The application will be available at the local URL provided by Vite.
+
+### Run tests
+
+```bash
+npm test
+```
+
+### Build for production
+
+```bash
+npm run build
+```
+
+## Project Structure
+
+```text
+src/
+├── components/
+│   └── PatientForm.tsx
+├── context/
+│   ├── AppointmentContext.ts
+│   ├── AppointmentProvider.tsx
+│   └── useAppointments.ts
+├── data/
+│   └── appointments.json
+├── pages/
+│   ├── BookingPage.tsx
+│   ├── DashboardPage.tsx
+│   └── DoctorSchedulePage.tsx
+├── types/
+│   └── appointment.ts
+├── utils/
+│   └── appointments.ts
+├── App.tsx
+└── main.tsx
+```
+
+## Notes
+
+The application is intentionally scoped to the assessment requirements. It uses static appointment data and session state rather than a backend or persistence layer.
+
+The architecture is designed to keep business rules centralized, derived state predictable, and UI components focused on presentation and user interaction.

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { filterSlots, getAppointments, getAvailableSlots, getCancelledAppointments, sortSlots, getConfirmedAppointments, type Appointment, sortAppointments, groupAppointmentsByDay, } from './appointments'
+import { filterSlots, getAppointments, getAvailableSlots, getCancelledAppointments, sortSlots, getConfirmedAppointments, type Appointment, sortAppointments, groupAppointmentsByDay, getDoctorAppointments, } from './appointments'
 import type { Booking, Slot } from '../types/appointment'
 
 describe('getAvailableSlots', () => {
@@ -260,6 +260,61 @@ describe('getAppointments', () => {
     ]
 
     expect(getAppointments(slots, bookings)).toEqual([])
+  })
+})
+
+describe('getDoctorAppointments', () => {
+  it('returns only appointments for the selected doctor', () => {
+    const appointments: Appointment[] = [
+      {
+        booking: {
+          slotId: 'slot-001',
+          patient: {
+            name: 'Diana',
+            contact: 'diana@example.com',
+          },
+          status: 'confirmed',
+        },
+        slot: {
+          id: 'slot-001',
+          doctorId: 'doc-001',
+          doctorName: 'Dr. Maria Torres',
+          specialty: 'Cardiology',
+          date: '2026-06-01',
+          dayOfWeek: 'Monday',
+          startTime: '09:00',
+          endTime: '10:00',
+          shift: 'morning',
+          status: 'available',
+        },
+      },
+      {
+        booking: {
+          slotId: 'slot-002',
+          patient: {
+            name: 'Diana',
+            contact: 'diana@example.com',
+          },
+          status: 'confirmed',
+        },
+        slot: {
+          id: 'slot-002',
+          doctorId: 'doc-002',
+          doctorName: 'Dr. Ana López',
+          specialty: 'Dermatology',
+          date: '2026-06-01',
+          dayOfWeek: 'Monday',
+          startTime: '10:00',
+          endTime: '11:00',
+          shift: 'morning',
+          status: 'available',
+        },
+      },
+    ]
+
+    expect(
+      getDoctorAppointments(appointments, 'doc-001'),
+    ).toEqual([appointments[0]])
   })
 })
 

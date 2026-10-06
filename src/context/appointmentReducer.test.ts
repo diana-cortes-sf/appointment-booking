@@ -79,4 +79,20 @@ describe('appointmentReducer', () => {
 
     expect(nextState.bookings[0].status).toBe('cancelled')
   })
+
+  it('does not book a slot without patient information', () => {
+  const stateWithoutPatient: AppointmentState = {
+    ...initialState,
+    patient: null,
+  }
+
+  const nextState = appointmentReducer(stateWithoutPatient, {
+    type: 'BOOK_SLOT',
+    payload: {
+      slotId: 'slot-001',
+    },
+  })
+
+  expect(nextState).toEqual(stateWithoutPatient)
+})
 })
