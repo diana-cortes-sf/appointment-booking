@@ -5,6 +5,7 @@ import { AppointmentProvider } from "./context/AppointmentProvider";
 import BookingPage from "./pages/BookingPage";
 import DashboardPage from "./pages/DashboardPage";
 import DoctorSchedulePage from "./pages/DoctorSchedulePage";
+import { HeartPulseIcon } from "./components/Icons";
 
 type Page = "booking" | "dashboard" | "doctorSchedule";
 
@@ -16,10 +17,10 @@ const App = () => {
       <div className="app">
         <header className="app-header">
           <div className="app-header-content">
-            <div>
-              <p className="app-brand">MediCare</p>
-              <span className="app-subtitle">Appointment booking</span>
-            </div>
+              <div className="app-brand">
+                <HeartPulseIcon className="app-brand-icon" />
+                <span>MediCare</span>
+              </div>
 
             <nav className="app-nav" aria-label="Main navigation">
               <button

@@ -46,14 +46,7 @@ const DashboardPage = () => {
         <section className="dashboard-section">
           <div className="section-header">
             <div>
-              <h2>Upcoming appointments</h2>
-              <p>
-                {confirmedAppointments.length}{' '}
-                {confirmedAppointments.length === 1
-                  ? 'appointment'
-                  : 'appointments'}{' '}
-                confirmed
-              </p>
+              <h2>Upcoming appointments ({confirmedAppointments.length})</h2>
             </div>
           </div>
 
@@ -122,8 +115,7 @@ const DashboardPage = () => {
         <section className="dashboard-section">
           <div className="section-header">
             <div>
-              <h2>Cancelled appointments</h2>
-              <p>Your appointment history.</p>
+              <h2>Cancelled appointments ({cancelledAppointments.length})</h2>
             </div>
           </div>
 

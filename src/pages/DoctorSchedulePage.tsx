@@ -8,6 +8,7 @@ import {
   getDoctorAppointments,
   groupAppointmentsByDay,
 } from '../utils/appointments'
+import { DoctorIcon } from '../components/Icons'
 
 const DoctorSchedulePage = () => {
   const { state } = useAppointments()
@@ -68,13 +69,11 @@ const DoctorSchedulePage = () => {
 
       <div className="schedule-controls">
         <label className="form-field">
-          <span>Doctor</span>
+          <span className="form-label-uppercase">Doctor</span>
 
           <select
             value={selectedDoctorId}
-            onChange={(event) =>
-              setSelectedDoctorId(event.target.value)
-            }
+            onChange={(event) => setSelectedDoctorId(event.target.value)}
           >
             {doctors.map((doctor) => (
               <option key={doctor.id} value={doctor.id}>
@@ -86,62 +85,59 @@ const DoctorSchedulePage = () => {
 
         {selectedDoctor && (
           <div className="selected-doctor">
-            <span>Selected doctor</span>
-            <strong>{selectedDoctor.name}</strong>
-            <p>{selectedDoctor.specialty}</p>
+            <div className="doctor-info">
+              <DoctorIcon className="doctor-icon" />
+
+              <div>
+                <span className="selected-doctor-label">Selected doctor</span>
+                <strong>{selectedDoctor.name}</strong>
+                <p>{selectedDoctor.specialty}</p>
+              </div>
+            </div>
           </div>
         )}
       </div>
 
       <div className="schedule-grid">
-        {Object.entries(schedule).map(
-          ([day, appointments]) => (
-            <section className="day-card" key={day}>
-              <div className="day-card-header">
-                <h2>{day}</h2>
+        {Object.entries(schedule).map(([day, appointments]) => (
+          <section className="day-card" key={day}>
+            <div className="day-card-header">
+              <h2>{day}</h2>
 
-                {appointments.length > 0 && (
-                  <span className="appointment-count">
-                    {appointments.length}
-                  </span>
-                )}
-              </div>
-
-              {appointments.length === 0 ? (
-                <div className="day-empty-state">
-                  <p>No appointments</p>
-                </div>
-              ) : (
-                <div className="day-appointments">
-                  {appointments.map((appointment) => (
-                    <article
-                      className="schedule-appointment"
-                      key={appointment.booking.slotId}
-                    >
-                      <div className="schedule-time">
-                        {appointment.slot.startTime}–
-                        {appointment.slot.endTime}
-                      </div>
-
-                      <div className="schedule-patient">
-                        <h3>
-                          {appointment.booking.patient.name}
-                        </h3>
-
-                        <span className="status-badge confirmed">
-                          Confirmed
-                        </span>
-                      </div>
-                    </article>
-                  ))}
-                </div>
+              {appointments.length > 0 && (
+                <span className="appointment-count">{appointments.length}</span>
               )}
-            </section>
-          ),
-        )}
+            </div>
+
+            {appointments.length === 0 ? (
+              <div className="day-empty-state">
+                <p>No appointments</p>
+              </div>
+            ) : (
+              <div className="day-appointments">
+                {appointments.map((appointment) => (
+                  <article
+                    className="schedule-appointment"
+                    key={appointment.booking.slotId}
+                  >
+                    <div className="schedule-time">
+                      {appointment.slot.startTime}–{appointment.slot.endTime}
+                    </div>
+
+                    <div className="schedule-patient">
+                      <h3>{appointment.booking.patient.name}</h3>
+
+                      <span className="status-badge confirmed">Confirmed</span>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            )}
+          </section>
+        ))}
       </div>
     </section>
-  )
+  );
 }
 
 export default DoctorSchedulePage

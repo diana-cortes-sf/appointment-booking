@@ -1,44 +1,36 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState } from "react";
 
-import { useAppointments } from '../context/useAppointments'
+import { useAppointments } from "../context/useAppointments";
 
 import {
   filterSlots,
   getAvailableSlots,
   sortSlots,
-} from '../utils/appointments'
+} from "../utils/appointments";
 
-import PatientForm from '../components/PatientForm'
+import PatientForm from "../components/PatientForm";
+import { MoonIcon, PersonIcon, SunIcon } from "../components/Icons";
 
 const BookingPage = () => {
-  const { state, bookSlot } = useAppointments()
+  const { state, bookSlot } = useAppointments();
 
   const [filters, setFilters] = useState({
-    specialty: '',
-    date: '',
-  })
+    specialty: "",
+    date: "",
+  });
 
   const visibleSlots = useMemo(() => {
-    const availableSlots = getAvailableSlots(
-      state.slots,
-      state.bookings,
-    )
+    const availableSlots = getAvailableSlots(state.slots, state.bookings);
 
-    const filteredSlots = filterSlots(
-      availableSlots,
-      filters,
-    )
+    const filteredSlots = filterSlots(availableSlots, filters);
 
-    return sortSlots(filteredSlots)
-  }, [state.slots, state.bookings, filters])
+    return sortSlots(filteredSlots);
+  }, [state.slots, state.bookings, filters]);
 
   const specialties = useMemo(
-    () =>
-      Array.from(
-        new Set(state.slots.map((slot) => slot.specialty)),
-      ).sort(),
+    () => Array.from(new Set(state.slots.map((slot) => slot.specialty))).sort(),
     [state.slots],
-  )
+  );
 
   return (
     <section className="page">
@@ -47,8 +39,7 @@ const BookingPage = () => {
           <p className="eyebrow">Appointments</p>
           <h1>Book an appointment</h1>
           <p className="page-description">
-            Choose a specialist and a convenient time for your
-            consultation.
+            Choose a specialist and a convenient time for your consultation.
           </p>
         </div>
       </div>
@@ -59,13 +50,13 @@ const BookingPage = () => {
             <div className="patient-card">
               <p className="card-label">Booking for</p>
 
-              <p className="patient-name">
-                {state.patient.name}
-              </p>
-
-              <p className="patient-contact">
-                {state.patient.contact}
-              </p>
+              <div className="patient-info">
+                <PersonIcon className="patient-icon" />
+                <div>
+                  <div className="patient-name">{state.patient.name}</div>
+                  <div className="patient-contact">{state.patient.contact}</div>
+                </div>
+              </div>
             </div>
           ) : (
             <PatientForm />
@@ -119,23 +110,14 @@ const BookingPage = () => {
         <div className="booking-results">
           <div className="results-header">
             <div>
-              <h2>Available appointments</h2>
-              <p>
-                {visibleSlots.length}{' '}
-                {visibleSlots.length === 1
-                  ? 'appointment'
-                  : 'appointments'}{' '}
-                available
-              </p>
+              <h2>Available appointments ({visibleSlots.length})</h2>
             </div>
           </div>
 
           {visibleSlots.length === 0 ? (
             <div className="empty-state">
               <h3>No appointments found</h3>
-              <p>
-                Try changing the specialty or date filters.
-              </p>
+              <p>Try changing the specialty or date filters.</p>
             </div>
           ) : (
             <div className="slot-grid">
@@ -148,6 +130,11 @@ const BookingPage = () => {
                     </div>
 
                     <span className="shift-badge">
+                      {slot.shift === "morning" ? (
+                        <SunIcon className="shift-icon" />
+                      ) : (
+                        <MoonIcon className="shift-icon" />
+                      )}
                       {slot.shift}
                     </span>
                   </div>
@@ -166,8 +153,8 @@ const BookingPage = () => {
                     disabled={!state.patient}
                   >
                     {state.patient
-                      ? 'Book appointment'
-                      : 'Add patient information'}
+                      ? "Book appointment"
+                      : "Add patient information"}
                   </button>
                 </article>
               ))}
@@ -176,7 +163,7 @@ const BookingPage = () => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default BookingPage
+export default BookingPage;
